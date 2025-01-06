@@ -1,54 +1,36 @@
 # Web Application Fuzzer
 
-A high-performance web application fuzzer written in golang with coverage-guided testing, form crawling, and security testing capabilities.
+A comprehensive web application fuzzer with coverage-guided mutation capabilities, concurrent crawling, and intelligent form detection.
 
 ## Features
 
-### 1. Intelligent Web Crawling
-- Concurrent site exploration (up to 100 workers)
-- Automatic form discovery
-- Pattern recognition
-- Host-bound crawling
-- Link extraction
+### Web Crawling
+- Concurrent and sequential crawling modes
+- Intelligent form detection
+- JavaScript form detection
+- API endpoint detection
+- Security protection detection
 
-### 2. Form Fuzzing
-- Grammar-based input generation
-- Field type detection
-- Pattern validation
-- Context-aware fuzzing
-- Coverage tracking
+### Fuzzing Capabilities
+- Coverage-guided mutation fuzzing
+- Form-based fuzzing
+- SQL injection testing
+- API endpoint fuzzing
+- Grammar-based fuzzing
 
-### 3. API Testing
-- Automatic API endpoint detection
-- Parameter type inference
-- Edge case generation
-- Request/response validation
-- JSON structure analysis
-- Method-aware fuzzing (GET/POST/PUT/etc.)
-- Content-type detection
-- Schema inference
+### Mutation Strategies
+- Path component mutations
+- Query parameter mutations
+- Special character injections
+- Path traversal attempts
+- Command injection payloads
 
-### 4. Security Testing
-- SQL injection detection
-- Cross-site scripting (XSS) testing
-- Path traversal checks
-- Command injection testing
-- Template injection detection
-
-### 5. Mutation Fuzzing
-- AFL-style mutation operators
-- Coverage-guided mutation selection
+### Coverage Analysis
+- Response code coverage
+- Response size coverage
+- Header coverage
 - Energy-based input scheduling
-- Adaptive mutation rates
-- Population management
-- Rare coverage prioritization
-
-### 6. Performance Features
-- Configurable concurrency (1-100 workers)
-- Efficient resource management
-- Thread-safe operations
-- Memory-optimized corpus
-- Synchronized worker pools
+- Population pruning for efficiency
 
 ## Installation
 
@@ -57,180 +39,112 @@ A high-performance web application fuzzer written in golang with coverage-guided
 git clone https://github.com/yourusername/fuzzer.git
 cd fuzzer
 
-# Build the fuzzer
+# Build the project
 go build -o webfuzzer cmd/webfuzzer/main.go
 ```
 
 ## Usage
 
-### Basic Usage
-
+### Basic Fuzzing
 ```bash
-# Basic fuzzing
-./webfuzzer -url http://example.com/
-
-# Verbose output
-./webfuzzer -url http://example.com/ -v
+# Basic website fuzzing
+webfuzzer -url http://example.com/
 ```
 
-### Performance Modes
-
+### Mutation-based Fuzzing
 ```bash
-# Full Auto Mode (Maximum Performance)
-./webfuzzer -url http://example.com/ --full-auto
-
-# High Performance Custom Setup
-./webfuzzer -url http://example.com/ -c 75 -n 8000
-
-# Balanced Performance
-./webfuzzer -url http://example.com/ -c 30
-
-# Resource-Conscious Mode
-./webfuzzer -url http://example.com/ -c 10 -n 1000
+# Coverage-guided mutation fuzzing
+webfuzzer -url http://example.com/ --mutation-coverage --seed "http://example.com/api/v1" --min-mutations 2 --max-mutations 10
 ```
 
-### Coverage-Guided Testing
-
+### API Fuzzing
 ```bash
-# Grammar Coverage
-./webfuzzer -url http://example.com/ --grammar-coverage
+# API endpoint detection and fuzzing
+webfuzzer -url http://example.com/ --api-fuzzing -v
 
-# Systematic Coverage
-./webfuzzer -url http://example.com/ --systematic
-
-# Context-Aware Coverage
-./webfuzzer -url http://example.com/ --duplicate-contexts
-
-# Mutation-Based Coverage
-./webfuzzer -url http://example.com/ --mutation-coverage --seed "http://example.com/api/v1"
-
-# AFL-Style Fuzzing
-./webfuzzer -url http://example.com/ --mutation-coverage --min-mutations 2 --max-mutations 10
+# Full API testing suite
+webfuzzer -url http://example.com/ --api-full
 ```
 
-### API Testing
-
+### SQL Injection Testing
 ```bash
-# API Endpoint Detection and Fuzzing
-./webfuzzer -url http://example.com/ --api-fuzzing
-
-# API Schema Inference
-./webfuzzer -url http://example.com/ --api-schema
-
-# Comprehensive API Testing
-./webfuzzer -url http://example.com/ --api-full
+# SQL injection testing with verbose output
+webfuzzer -url http://example.com/ --sql-injection -v
 ```
 
-### Security Testing
-
+### Full Automatic Testing
 ```bash
-# SQL Injection Testing
-./webfuzzer -url http://example.com/ --sql-injection
-
-# Comprehensive Security Scan
-./webfuzzer -url http://example.com/ --full-auto
+# Enable all testing capabilities
+webfuzzer -url http://example.com/ --full-auto
 ```
 
-## Configuration Options
+## Command Line Options
 
-| Flag | Description | Default | Range |
-|------|-------------|---------|--------|
-| `-url` | Target URL to fuzz | Required | - |
-| `-c` | Number of concurrent workers | 20 | 1-100 |
-| `-n` | Number of requests to send | 2000 | >0 |
-| `-t` | Timeout per request | 10s | >1s |
-| `-o` | Output directory | ./results | - |
-| `-v` | Verbose logging | false | - |
-| `--coverage` | Coverage-guided fuzzing | true | - |
-| `--grammar-coverage` | Grammar-coverage-guided fuzzing | true | - |
-| `--systematic` | Systematic coverage-guided fuzzing | false | - |
-| `--max-corpus` | Maximum corpus size | 2000 | >0 |
-| `--max-depth` | Maximum grammar tree depth | 10 | >0 |
-| `--duplicate-contexts` | Context duplication | false | - |
-| `--api-fuzzing` | Enable API fuzzing | false | - |
-| `--api-schema` | Enable API schema inference | false | - |
-| `--api-full` | Full API testing suite | false | - |
-| `--sql-injection` | SQL injection testing | false | - |
-| `--mutation-coverage` | Enable mutation-based fuzzing | false | - |
-| `--min-mutations` | Minimum mutations per input | 2 | >0 |
-| `--max-mutations` | Maximum mutations per input | 10 | >0 |
-| `--seed` | Initial seed input for mutation | "" | - |
-| `--full-auto` | Enable all capabilities | false | - |
+| Flag | Description | Default |
+|------|-------------|---------|
+| `-url` | Target URL to fuzz | (required) |
+| `-c` | Number of concurrent workers | 10 |
+| `-n` | Number of requests to send | 1000 |
+| `-t` | Timeout per request | 10s |
+| `-o` | Output directory for results | ./results |
+| `-v` | Enable verbose logging | false |
+| `--mutation-coverage` | Enable mutation-based fuzzing | false |
+| `--seed` | Initial seed input for mutation | "" |
+| `--min-mutations` | Minimum mutations per input | 2 |
+| `--max-mutations` | Maximum mutations per input | 10 |
+| `--api-fuzzing` | Enable API endpoint detection | false |
+| `--sql-injection` | Enable SQL injection testing | false |
+| `--full-auto` | Enable all testing capabilities | false |
 
-## Full Auto Mode
+## Architecture
 
-The `--full-auto` flag enables comprehensive testing with optimized settings and intelligent crawling:
+### Core Components
+- **Web Crawler**: Concurrent crawler with form detection
+- **Mutation Fuzzer**: Base mutation fuzzing implementation
+- **Coverage Fuzzer**: Coverage-guided fuzzing with energy scheduling
+- **Form Fuzzer**: Intelligent form field fuzzing
+- **API Detector**: API endpoint detection and schema inference
+- **Security Detector**: Security protection detection
 
-### Crawling Strategy
-1. **Sequential Crawling Phase**
-   - Initial crawl with single thread
-   - Optimized for API endpoint detection
-   - Better pattern recognition
-   - Reduced false positives
-
-2. **Concurrent Crawling Phase**
-   - Broad coverage with multiple workers
-   - Form detection and validation
-   - Resource discovery
-   - Results merged with sequential phase
-
-### Optimized Settings
-- 50 concurrent workers
-- 10,000 test requests
-- 5,000 corpus size
-- 30-second timeout
-
-### Enabled Features
-- Grammar coverage
-- Systematic coverage
-- Context duplication
-- API endpoint detection and fuzzing
-- API schema inference
-- SQL injection testing
-- Verbose logging
-- Form fuzzing
-- Security testing
-
-## Output
-
-Results are saved in the output directory (default: ./results):
-
+### Project Structure
 ```
-results/
-├── fuzzer.log     # Detailed fuzzing logs
-├── results.txt    # Test results and findings
-└── coverage/      # Coverage reports
+.
+├── cmd/
+│   └── webfuzzer/
+│       └── main.go
+├── internal/
+│   └── fuzzer/
+│       ├── web_crawler.go
+│       ├── mutation_fuzzer.go
+│       ├── mutation_coverage_fuzzer.go
+│       ├── form.go
+│       ├── api_detector.go
+│       └── sql_injection_fuzzer.go
+├── wordlists/
+│   └── web-attacks.txt
+├── go.mod
+├── go.sum
+└── README.md
 ```
-
-## Performance Tips
-
-1. **Concurrency Tuning**:
-   - Start with 20 workers for balanced performance
-   - Increase up to 50 workers for faster testing
-   - Use up to 100 workers for maximum throughput
-   - Monitor system resources and adjust accordingly
-
-2. **Resource Optimization**:
-   - Adjust corpus size based on available memory
-   - Set appropriate timeouts for target response times
-   - Use resource-conscious mode for limited environments
-
-3. **Testing Strategy**:
-   - Start with basic fuzzing to establish baseline
-   - Enable coverage-guided features for thorough testing
-   - Use full auto mode for comprehensive security testing
-   - Monitor and adjust based on results
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/improvement`)
-3. Commit your changes (`git commit -am 'Add improvement'`)
-4. Push to the branch (`git push origin feature/improvement`)
-5. Create a Pull Request
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
- 
- 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Security Considerations
+
+This tool is intended for security testing of your own systems or systems you have permission to test. Do not use this tool against systems you don't own or have explicit permission to test.
+
+## Acknowledgments
+
+- Inspired by modern fuzzing techniques from AFL and libFuzzer
+- Uses coverage-guided fuzzing principles for efficient testing
+- Implements concurrent crawling patterns for better performance
