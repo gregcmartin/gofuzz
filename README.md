@@ -1,6 +1,6 @@
 # Web Application Fuzzer
 
-A comprehensive web application fuzzer with coverage-guided mutation capabilities, concurrent crawling, and intelligent form detection.
+A comprehensive web application fuzzer written in golang with coverage-guided mutation capabilities, concurrent crawling, and intelligent form detection.
 
 ## Features
 
@@ -36,7 +36,7 @@ A comprehensive web application fuzzer with coverage-guided mutation capabilitie
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/fuzzer.git
+git clone https://github.com/gregcmartin/fuzzer.git
 cd fuzzer
 
 # Build the project
